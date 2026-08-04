@@ -1,17 +1,24 @@
-import aiohttp
-from aiogram import Bot, Dispatcher
+import os  # <-- ОБЯЗАТЕЛЬНО В САМОМ ВЕРХУ
+import asyncio
+import logging
+from datetime import datetime
+
+from aiogram import Bot, Dispatcher, F, types
 from aiogram.client.session.aiohttp import AiohttpSession
+from aiogram.filters import Command
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+import httpx
 
+# 1. Безопасное получение токена
 BOT_TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    raise ValueError("ОШИБКА: Переменная BOT_TOKEN не установлена в окружении!")
 
-# Создаем базовую сессию aiohttp с явным прокси
-custom_session = AiohttpSession(proxy="http://proxy.server:3128")
+# 2. Сессия с прокси для PythonAnywhere
+session = AiohttpSession(proxy="http://proxy.server:3128")
 
-bot = Bot(token=BOT_TOKEN, session=custom_session)
+bot = Bot(token=BOT_TOKEN, session=session)
 dp = Dispatcher()
-
-
-
 
 # Хранилище подписок: {user_id: {"regions": set(), "night_mode": False, "filter": "all"}}
 users_data = {}
