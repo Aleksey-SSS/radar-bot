@@ -8,18 +8,18 @@ from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 import httpx
+from aiogram.client.session.aiohttp import AiohttpSession
+
+# Передаем прокси напрямую в AiohttpSession
+session = AiohttpSession(proxy="http://proxy.server:3128")
+bot = Bot(token=BOT_TOKEN, session=session)
 
 # -------------------------------------------------------------------
 # Инициализация и настройка
 # -------------------------------------------------------------------
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-# Прокси для работы на бесплатном тарифе PythonAnywhere
-session = None
-if os.path.exists("/home/AlekseySSS"):  # Проверка среды PythonAnywhere
-    session = AiohttpSession(proxy="http://proxy.server:3128")
 
-bot = Bot(token=BOT_TOKEN, session=session) if session else Bot(token=BOT_TOKEN)
 dp = Dispatcher()
 
 # Хранилище подписок: {user_id: {"regions": set(), "night_mode": False, "filter": "all"}}
