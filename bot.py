@@ -1,28 +1,15 @@
-import asyncio
-import logging
-import os
-from datetime import datetime
-
-from aiogram import Bot, Dispatcher, F, types
+import aiohttp
+from aiogram import Bot, Dispatcher
 from aiogram.client.session.aiohttp import AiohttpSession
-from aiogram.filters import Command
-from aiogram.utils.keyboard import InlineKeyboardBuilder
-import httpx
 
-# 1. Задаем системный прокси для всей сессии Python (самый надежный способ для PythonAnywhere)
-os.environ["HTTP_PROXY"] = "http://proxy.server:3128"
-os.environ["HTTPS_PROXY"] = "http://proxy.server:3128"
-
-# 2. Безопасное получение токена
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-if not BOT_TOKEN:
-    raise ValueError(
-        "ОШИБКА: Переменная BOT_TOKEN не установлена в окружении!"
-    )
 
-# 3. Инициализируем бота БЕЗ передачи proxy в AiohttpSession (он автоматически подхватит os.environ)
-bot = Bot(token=BOT_TOKEN)
+# Создаем базовую сессию aiohttp с явным прокси
+custom_session = AiohttpSession(proxy="http://proxy.server:3128")
+
+bot = Bot(token=BOT_TOKEN, session=custom_session)
 dp = Dispatcher()
+
 
 
 
