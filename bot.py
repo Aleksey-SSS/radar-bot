@@ -4,11 +4,15 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 import httpx 
 import os
+from aiogram.client.session.aiohttp import AiohttpSession
 
 # Код считывает токен из настроек сервера
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
-bot = Bot(token=BOT_TOKEN)
+# Используем официальный прокси PythonAnywhere для Telegram
+session = AiohttpSession(proxy="http://proxy.server:3128")
+bot = Bot(token=BOT_TOKEN, session=session)
+
 dp = Dispatcher()
 
 # Хранилище в памяти
