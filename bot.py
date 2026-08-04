@@ -2,7 +2,8 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
-import httpximport os
+import httpx 
+import os
 
 # Код считывает токен из настроек сервера
 BOT_TOKEN = os.getenv("BOT_TOKEN")
