@@ -9,19 +9,21 @@ from aiogram.filters import Command
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 import httpx
 
-# 1. Безопасное получение токена
+# 1. Задаем системный прокси для всей сессии Python (самый надежный способ для PythonAnywhere)
+os.environ["HTTP_PROXY"] = "http://proxy.server:3128"
+os.environ["HTTPS_PROXY"] = "http://proxy.server:3128"
+
+# 2. Безопасное получение токена
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 if not BOT_TOKEN:
     raise ValueError(
         "ОШИБКА: Переменная BOT_TOKEN не установлена в окружении!"
     )
 
-# 2. Настройка HTTP-прокси для PythonAnywhere без SOCKS-коннектора
-# Передаем адрес прокси без http:// схемы, чтобы aiogram использовал стандартный HTTP-клиент
-session = AiohttpSession(proxy="proxy.server:3128")
-
-bot = Bot(token=BOT_TOKEN, session=session)
+# 3. Инициализируем бота БЕЗ передачи proxy в AiohttpSession (он автоматически подхватит os.environ)
+bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher()
+
 
 
 # Хранилище подписок: {user_id: {"regions": set(), "night_mode": False, "filter": "all"}}
