@@ -10,16 +10,16 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 import httpx
 from aiogram.client.session.aiohttp import AiohttpSession
 
-# Передаем прокси напрямую в AiohttpSession
-session = AiohttpSession(proxy="http://proxy.server:3128")
-bot = Bot(token=BOT_TOKEN, session=session)
-
-# -------------------------------------------------------------------
-# Инициализация и настройка
-# -------------------------------------------------------------------
+# Читаем токен из окружения (в коде самого токена НЕТ)
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
+if not BOT_TOKEN:
+    raise ValueError(
+        "ОШИБКА: Переменная BOT_TOKEN не найдена в окружении системы!"
+    )
 
+session = AiohttpSession(proxy="http://proxy.server:3128")
+bot = Bot(token=BOT_TOKEN, session=session)
 dp = Dispatcher()
 
 # Хранилище подписок: {user_id: {"regions": set(), "night_mode": False, "filter": "all"}}
