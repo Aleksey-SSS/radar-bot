@@ -10,7 +10,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 import httpx
 
 # 1. Безопасное получение токена
-BOT_TOKEN = os.getenv("BOT_TOKEN")
+BOT_TOKEN = "8825789744:AAHiDZQEgmbugF5hrt6g5WoeeER7tMJjeZY"
 if not BOT_TOKEN:
     raise ValueError("ОШИБКА: Переменная BOT_TOKEN не установлена в окружении!")
 
